@@ -1,0 +1,6 @@
+
+ - Исходные данные: aaaaaa(khgjhkjjh)bbbbb(hgkjkj)cccc(jhkhk(nbnnbn)jhkjh)ddddd 
+- Cтрока без скобок: aaaaaabbbbbccccddddd 
+
+ - Исходные данные: aaaaaa(khgjhkjjh)bbbbb(hgkjkj)cccc(jhkhk(nbnnbn)jhkjh)ddddddfgf
+- Cтрока без скобок: aaaaaabbbbbccccddddddfgf
