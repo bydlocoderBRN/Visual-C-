@@ -1,5 +1,6 @@
 #pragma once
-
+#include "Rocket.h"
+#include "Planet.h"
 namespace EarthSpaceFlying {
 
 	using namespace System;
@@ -38,12 +39,15 @@ namespace EarthSpaceFlying {
 	protected:
 	private: System::Windows::Forms::Button^ button1;
 	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::PictureBox^ pictureBox2;
+	private: System::Windows::Forms::Timer^ timer1;
+	private: System::ComponentModel::IContainer^ components;
 
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -52,17 +56,21 @@ namespace EarthSpaceFlying {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// pictureBox1
 			// 
 			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
-			this->pictureBox1->Location = System::Drawing::Point(33, 30);
+			this->pictureBox1->Location = System::Drawing::Point(97, 106);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(150, 82);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
@@ -71,7 +79,7 @@ namespace EarthSpaceFlying {
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(1138, 496);
+			this->button1->Location = System::Drawing::Point(1163, 441);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 1;
@@ -89,19 +97,36 @@ namespace EarthSpaceFlying {
 			this->label1->TabIndex = 2;
 			this->label1->Text = L"label1";
 			// 
+			// pictureBox2
+			// 
+			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
+			this->pictureBox2->Location = System::Drawing::Point(357, 64);
+			this->pictureBox2->Name = L"pictureBox2";
+			this->pictureBox2->Size = System::Drawing::Size(800, 800);
+			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
+			this->pictureBox2->TabIndex = 3;
+			this->pictureBox2->TabStop = false;
+			// 
+			// timer1
+			// 
+			this->timer1->Interval = 1000;
+			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::Black;
 			this->ClientSize = System::Drawing::Size(1902, 1033);
+			this->Controls->Add(this->pictureBox1);
+			this->Controls->Add(this->pictureBox2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->button1);
-			this->Controls->Add(this->pictureBox1);
 			this->ForeColor = System::Drawing::Color::Black;
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -109,11 +134,26 @@ namespace EarthSpaceFlying {
 #pragma endregion
 		
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-		this->pictureBox1->Top += 60;
-		/*this->pictureBox1->Location = new Point(this->pictureBox1->Location.X + 60, this->pictureBox1->Location.Y + 60);*/
-		label1->Text = Convert::ToString(pictureBox1->Location.X);
+		timer1->Enabled = true;
+
+	}
+	public:
+		Planet plan;
+		Rocket souz;
+		MyForm(){}
+		int getPlanetWidth() {
+		return this->pictureBox2->Width;
 	}
 
+		void setPlanetWidth() {
+			this->pictureBox2->Width = plan.getPlanetRad();
 
-	};
+		}
+		int xx = souz.getStartX();
+	private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
+		xx += 50;
+		pictureBox1->Left = xx;
+		pictureBox1->Top = Moving().pointFor(xx);
+	}
+};
 }

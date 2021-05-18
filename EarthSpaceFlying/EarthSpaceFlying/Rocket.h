@@ -1,33 +1,25 @@
 #pragma once
 using System::Math;
-class Rocket
+ref class Rocket
 {
-	int a;
-	int b;
+private:
+	int height;
 	int startX;
 	int startY;
-public: void setEllipse(int aRad, int bRad) {
-	a = aRad;
-	b = bRad;
-}
-public: int getARad() {
-	return a;
-}
-public:int getBRad() { return b;}
-public: int pointFor(int x) {
+public:
 
-	float y = Math::Sqrt(getARad() * getARad() + getBRad() * getBRad() - x * x);
-	return (int)y;
-}
-public: void setStartPosition(int x, int y) {
+	void setHeight(int h) {
+		height = h;
+	}
+	int getHeight() { return height; }
+
+
+	
+	void setStartPosition(int x, int y) {
 	startX = x;
 	startY = y;
 }
-public: int getStartX() {
-	return startX;
-}
-public: int getStartY() {
-	return startY;
-}
+	 int getStartX() {return startX;}
+	 int getStartY() {return startY;}
 };
 

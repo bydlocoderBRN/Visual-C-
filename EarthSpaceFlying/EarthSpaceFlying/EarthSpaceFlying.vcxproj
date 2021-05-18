@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="Moving.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="Planet.cpp" />
     <ClCompile Include="Rocket.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +128,7 @@
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Planet.h" />
     <ClInclude Include="Rocket.h" />
   </ItemGroup>
   <ItemGroup>
