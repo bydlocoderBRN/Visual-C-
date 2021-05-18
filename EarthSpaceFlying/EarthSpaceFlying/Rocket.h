@@ -1,6 +1,6 @@
 #pragma once
 using System::Math;
-public class Rocket
+class Rocket
 {
 	int a;
 	int b;
