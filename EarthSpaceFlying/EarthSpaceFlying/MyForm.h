@@ -144,20 +144,10 @@ namespace EarthSpaceFlying {
 		return this->pictureBox2->Width;
 	}
 
-		/*void setPlanetWidth() {
-			this->pictureBox2->Width = plan.getPlanetRad();
-
-		}
-		int xx = souz.getStartX();
-	private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
-		
-		xx += 50;
-		pictureBox1->Left = xx;
-		pictureBox1->Top = Moving().pointFor(xx);
-	}*/
+	
 private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
-	this->pictureBox1->Left = Global::GlobalRocket::globalRocket->xPoint(t) +400;
-	this->pictureBox1->Top = Global::GlobalRocket::globalRocket->yPoint(t) +400;
+	this->pictureBox1->Left = Global::GlobalRocket::globalRocket->xPoint(t)+Global::GlobalPlanet::globalPlanet->getCenterX();
+	this->pictureBox1->Top = Global::GlobalRocket::globalRocket->yPoint(t)+Global::GlobalPlanet::globalPlanet->getCenterY();
 	t = t + pi / 24;
 	if (t > 2 * pi) {
 		this->timer1->Enabled = false;

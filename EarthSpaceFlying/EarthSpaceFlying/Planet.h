@@ -10,5 +10,7 @@ public:
 	void initPlanet(int cx, int cy, int r);
 	int getPlanetRad();
 	void setPlanetRad(int r);
+	int getCenterX();
+	int getCenterY();
 };
 

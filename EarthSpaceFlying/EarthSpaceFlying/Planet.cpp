@@ -11,3 +11,5 @@ void Planet::initPlanet(int cx, int cy, int r) {
 };
 int Planet::getPlanetRad() { return planetRad; }
 void Planet::setPlanetRad(int r) { planetRad = r; }
+int Planet::getCenterX() {return centerX;};
+int Planet::getCenterY() { return centerY; };
