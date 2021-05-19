@@ -1,25 +1,22 @@
 #pragma once
 using System::Math;
-ref class Rocket
+public ref class Rocket
 {
 private:
 	int height;
 	int startX;
 	int startY;
+	float ellipsB;
+	float ellipsA;
 public:
-
-	void setHeight(int h) {
-		height = h;
-	}
-	int getHeight() { return height; }
-
-
-	
-	void setStartPosition(int x, int y) {
-	startX = x;
-	startY = y;
-}
-	 int getStartX() {return startX;}
-	 int getStartY() {return startY;}
+	Rocket();
+	void initRocket(int h, int sx, int sy);
+	void setHeight(int h);
+	int getHeight();
+	void setStartPosition(int x, int y);
+	int getStartX();
+	int getStartY();
+	int yPoint(float t);
+	int xPoint(float t);
 };
 

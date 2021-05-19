@@ -118,23 +118,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Moving.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="Rocket.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Moving.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Planet.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Rocket.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EarthSpaceFlying.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

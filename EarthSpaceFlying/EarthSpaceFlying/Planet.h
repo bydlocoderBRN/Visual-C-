@@ -1,19 +1,14 @@
 #pragma once
-#include "MyForm.h"
-ref class Planet
+public ref class Planet
 {
 private:
 	int centerX;
 	int centerY;
 	int planetRad;
 public:
-	Planet() {};
-	int getPlanetRad(){
-		planetRad = MyForm().getPlanetWidth();
-		return planetRad;
-	}
-	void setPlanetRad(int r) {
-		planetRad = r;
-	}
+	Planet();
+	void initPlanet(int cx, int cy, int r);
+	int getPlanetRad();
+	void setPlanetRad(int r);
 };
 
