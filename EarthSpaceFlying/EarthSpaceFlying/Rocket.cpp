@@ -20,6 +20,7 @@ void Rocket::initRocket(int h, System::Windows::Forms::PictureBox^ rocketpt) {
 	rocketPicture->Top = startY;
 	rocketPicture->Image = resizeRocket(0.1);
 	rocketPicture->Visible = true;
+	flyingStatus = true;
 	Global::GlobalRocket::globalRocket->RocketBoom += gcnew Rocket::RocketBoomHandler(this, &Rocket::getBoom);
 };
 Bitmap^ Rocket::resizeRocket( float scale) { 
@@ -63,20 +64,27 @@ int Rocket::xPoint(float t) {
 	 boomPicture->Top = rocketPicture->Top - rocketPicture ->Width /2;
 	 boomPicture->Left = rocketPicture->Left - rocketPicture->Height/2;
 	 boomPicture->Visible = true;
+	 setFlyingStatus(false);
+	 rocketPicture->Visible = false;
 	 return boomPicture;
 	
  }
- System::Windows::Forms::PictureBox^ Rocket::boomStart() {
-	return RocketBoom();
+ bool Rocket::isFlying() {
+	 return flyingStatus;
  }
+ void Rocket::setFlyingStatus(bool status) {
+	 flyingStatus = status;
+ }
+ System::Windows::Forms::PictureBox^ Rocket::rocketDamaged(System::Windows::Forms::PictureBox^ object) {
+	 d1 = Math::Sqrt(rocketPicture->Width * rocketPicture->Width + rocketPicture->Height * rocketPicture->Height) / 2;
+	 d2 = Math::Sqrt(object->Width * object->Width + object->Height * object->Height) / 2;
+	 xa = rocketPicture->Location.X + rocketPicture->Height / 2;
+	 ya = rocketPicture->Location.Y + rocketPicture->Width / 2;
+	 xb = object->Location.X + object->Height / 2;
+	 yb = object->Location.Y + object->Width / 2;
+	 if (Math::Sqrt((xa - xb) * (xa - xb) + (ya - yb) * (ya - yb)) <= (d1 + d2)) {
+		 return RocketBoom();
+	 }
 
- /*bool Rocket::isTouched(System::Windows::Forms::PictureBox^ object) {
-	 d1 = Math::Sqrt(rocketPicture->Width * object1->Width + object1->Height * object1->Height) / 2;
-	 d2 = Math::Sqrt(object2->Width * object2->Width + object2->Height * object2->Height) / 2;
-	 xa = object1->Location.X + object1->Height / 2;
-	 ya = object1->Location.Y + object1->Width / 2;
-	 xb = object2->Location.X + object2->Height / 2;
-	 yb = object2->Location.Y + object2->Width / 2;
-	 if (Math::Sqrt((xa - xb) * (xa - xb) + (ya - yb) * (ya - yb)) <= (d1 + d2))
- }*/
+ }
  

@@ -13,6 +13,7 @@ private:
 	float d1;
 	float d2;
 	int xa, ya, xb, yb;
+	bool flyingStatus;
 	Image^ rocketImg;
 public:
 	Rocket();
@@ -32,8 +33,9 @@ public:
 	System::Windows::Forms::PictureBox^ getRocket();
 	System::Windows::Forms::PictureBox^ getBoom();
 	void startFlying( float scale);
-	System::Windows::Forms::PictureBox^ boomStart();
-	/*bool isTouched(System::Windows::Forms::PictureBox^ object);*/
+	System::Windows::Forms::PictureBox^ rocketDamaged(System::Windows::Forms::PictureBox^ object);
+	bool isFlying();
+	void setFlyingStatus(bool status);
 	delegate System::Windows::Forms::PictureBox^ RocketBoomHandler();
 	event RocketBoomHandler^ RocketBoom;
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "Global.h"
-
+#include "Meteor.h"
 #include <iostream>
 #include <cstdlib> 
 namespace EarthSpaceFlying {
@@ -273,13 +273,10 @@ namespace EarthSpaceFlying {
 				float scale = 1;
 				int counter = 0;
 				int fall = 0;
-				Rocket^ rocketSouz = gcnew Rocket;
-				Planet^ planetEarth = gcnew Planet;
+				Meteor^ meteor1 = gcnew Meteor(pictureBox5);
 				float d1;
 				float d2;
 				int xa, ya, xb, yb;
-				delegate void ObjectsTouchedHandler(System::Windows::Forms::PictureBox^ object1, System::Windows::Forms::PictureBox^ object2);
-				event ObjectsTouchedHandler^ ObjectsTouched;
 
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		
@@ -300,6 +297,10 @@ namespace EarthSpaceFlying {
 
 	
 private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
+	Global::GlobalRocket::globalRocket->rocketDamaged(pictureBox5);
+	pictureBox5->Visible= Global::GlobalRocket::globalRocket->isFlying();
+	pictureBox1 = Global::GlobalRocket::globalRocket->getRocket();
+	timer1->Enabled = Global::GlobalRocket::globalRocket->isFlying();
 	this->pictureBox1->Left = Global::GlobalRocket::globalRocket->xPoint(t)+Global::GlobalPlanet::globalPlanet->getCenterX();
 	this->pictureBox1->Top = Global::GlobalRocket::globalRocket->yPoint(Global::GlobalRocket::globalRocket->getHeight() + Global::GlobalPlanet::globalPlanet->getPlanetRad(), t)+Global::GlobalPlanet::globalPlanet->getCenterY();
 	t = t + pi / 24;
@@ -307,10 +308,12 @@ private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) 
 		t = 0;
 	}
 	label1->Text = Convert::ToString(t);
-	isTouched(pictureBox1, pictureBox5);
-	/*meteorFlight();*/
+	
 }
 private: System::Void timer2_Tick(System::Object^ sender, System::EventArgs^ e) {
+	Global::GlobalRocket::globalRocket->rocketDamaged(pictureBox5);
+	pictureBox5->Visible = Global::GlobalRocket::globalRocket->isFlying();
+	timer2->Enabled = Global::GlobalRocket::globalRocket->isFlying();
 	scale *=1.01;
 	Global::GlobalRocket::globalRocket->startFlying(scale);
 	pictureBox1 = Global::GlobalRocket::globalRocket->getRocket();
@@ -329,10 +332,16 @@ private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) 
 	Global::GlobalRocket::globalRocket->setBoom(pictureBox3);
 	Global::GlobalPlanet::globalPlanet->setCrater(pictureBox4);
 	pictureBox1 = Global::GlobalRocket::globalRocket->getRocket();
-	MyForm::ObjectsTouched += gcnew ObjectsTouchedHandler(this, &MyForm::TouchedHappened);
+	pictureBox5 = meteor1->getMeteor();
 }
 private: System::Void timer3_Tick(System::Object^ sender, System::EventArgs^ e) {
+	Global::GlobalRocket::globalRocket->rocketDamaged(pictureBox5);
+	Global::GlobalRocket::globalRocket->rocketDamaged(pictureBox2);
+	pictureBox5->Visible = Global::GlobalRocket::globalRocket->isFlying();
 	pictureBox1 = Global::GlobalRocket::globalRocket->getRocket();
+	timer3->Enabled = Global::GlobalRocket::globalRocket->isFlying();
+	pictureBox4= Global::GlobalPlanet::globalPlanet->crushStarted(pictureBox1);
+	/*pictureBox4 = Global::GlobalPlanet::globalPlanet->crushStarted(pictureBox5);*/
 	this->pictureBox1->Left = Global::GlobalRocket::globalRocket->xPoint(t) + Global::GlobalPlanet::globalPlanet->getCenterX();
 	this->pictureBox1->Top = Global::GlobalRocket::globalRocket->yPoint(Global::GlobalRocket::globalRocket->getHeight() + Global::GlobalPlanet::globalPlanet->getPlanetRad(),t) + Global::GlobalPlanet::globalPlanet->getCenterY();
 	t = t + pi / 24;
@@ -340,39 +349,29 @@ private: System::Void timer3_Tick(System::Object^ sender, System::EventArgs^ e) 
 		t = 0;
 	Global::GlobalRocket::globalRocket->setHeight(Global::GlobalRocket::globalRocket->getHeight()-5);
 	label1->Text = Convert::ToString(t);
-	isTouched(pictureBox1, pictureBox2);
+	
 }
-	public: Boolean isTouched(System::Windows::Forms::PictureBox^ object1, System::Windows::Forms::PictureBox^ object2) {
-		d1 = Math::Sqrt(object1->Width * object1->Width + object1->Height * object1->Height) / 2;
-		d2 = Math::Sqrt(object2->Width * object2->Width + object2->Height * object2->Height) / 2;
-		xa = object1->Location.X + object1->Height / 2;
-		ya = object1->Location.Y + object1->Width / 2;
-		xb = object2->Location.X + object2->Height / 2;
-		yb = object2->Location.Y + object2->Width / 2;
-		if (Math::Sqrt((xa - xb) * (xa - xb) + (ya - yb) * (ya - yb)) <= (d1 + d2)) {	
-			ObjectsTouched(object1, object2);
-			if (object1 == pictureBox1 || object2 == pictureBox1) {
-				pictureBox3= Global::GlobalRocket::globalRocket->boomStart();
-			}
-			if (object2 == pictureBox2) {
-				pictureBox2->Visible = true;
-				pictureBox4 = Global::GlobalPlanet::globalPlanet->crushStarted(object1->Location.X + object1->Height , object1->Location.Y + object1->Width);
-			}
-			if (object1 == pictureBox2) {
-				pictureBox2->Visible = true;
-				pictureBox4 = Global::GlobalPlanet::globalPlanet->crushStarted(object2->Location.X + object2->Height, object2->Location.Y + object2->Width);
-			}
-			return true;
-		}
-		else return false;
-	}
-	public:void TouchedHappened(System::Windows::Forms::PictureBox^ object1, System::Windows::Forms::PictureBox^ object2) {
-		 object1->Visible = false;
-		 object2->Visible = false;
-		 timer1->Enabled = false;
-		 timer2->Enabled = false;
-		 timer3->Enabled = false;
-	}
+	//public: Boolean isTouched(System::Windows::Forms::PictureBox^ object1, System::Windows::Forms::PictureBox^ object2) {
+	//	d1 = Math::Sqrt(object1->Width * object1->Width + object1->Height * object1->Height) / 2;
+	//	d2 = Math::Sqrt(object2->Width * object2->Width + object2->Height * object2->Height) / 2;
+	//	xa = object1->Location.X + object1->Height / 2;
+	//	ya = object1->Location.Y + object1->Width / 2;
+	//	xb = object2->Location.X + object2->Height / 2;
+	//	yb = object2->Location.Y + object2->Width / 2;
+	//	if (Math::Sqrt((xa - xb) * (xa - xb) + (ya - yb) * (ya - yb)) <= (d1 + d2)) {	
+	//		if (object2 == pictureBox2) {
+	//			pictureBox2->Visible = true;
+	//			pictureBox4 = Global::GlobalPlanet::globalPlanet->crushStarted(object1->Location.X + object1->Height , object1->Location.Y + object1->Width);
+	//		}
+	//		if (object1 == pictureBox2) {
+	//			pictureBox2->Visible = true;
+	//			pictureBox4 = Global::GlobalPlanet::globalPlanet->crushStarted(object2->Location.X + object2->Height, object2->Location.Y + object2->Width);
+	//		}
+	//		return true;
+	//	}
+	//	else return false;
+	//}
+
 	
 	
 private: System::Void pictureBox3_VisibleChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -380,25 +379,7 @@ private: System::Void pictureBox3_VisibleChanged(System::Object^ sender, System:
 		pictureBox3->Visible = false;
 	}*/
 }
-	   void meteorFlight() {
-		   /*Boolean znak = getRandomNumber(0,1);*/
-		   Boolean znak = 1;
-		   if (znak == 1) {
-			   pictureBox5->Top = pictureBox1->Top  + getRandomNumber(100 , 200);
-			   pictureBox5->Left = pictureBox1->Left  + getRandomNumber(100, 200);
-		   }
-		  /* if (znak == 0) {
-			   pictureBox5->Top = pictureBox1->Top  - getRandomNumber(100, 200);
-			   pictureBox5->Left = pictureBox1->Left  - getRandomNumber(100, 200);
-		   }*/
-	   }
-
-	   int getRandomNumber(int min, int max)
-	   {
-		   static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);
-		  
-		   return static_cast<int>(rand() * fraction * (max - min + 1) + min);
-	   }
+	
 private: System::Void button5_Click(System::Object^ sender, System::EventArgs^ e) {
 	pictureBox5->Top -= 10;
 }

@@ -119,12 +119,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="Meteor.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="Rocket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h" />
+    <ClInclude Include="Meteor.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
